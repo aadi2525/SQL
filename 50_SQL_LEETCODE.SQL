@@ -46,3 +46,16 @@ group by V.customer_id;
 select  W1.id from Weather W1,  Weather W2
 where DATEDIFF(W1.recordDate, W2.recordDate)=1 AND W1.temperature > W2.temperature;
 
+# Write your MySQL query statement below
+select Employee.name , Bonus.bonus  from Employee left join Bonus on 
+ Bonus.empId = Employee.empId 
+where bonus<1000 or Bonus is null;
+
+
+# Write your MySQL query statement below
+select s.student_id,s.student_name,sb.subject_name,ifnull(count(e.student_id),0) attended_exams 
+from Students s cross join Subjects sb 
+left join Examinations e on 
+e.student_id = s.student_id  and  e.subject_name=sb.subject_name
+group by s.student_id,s.student_name,sb.subject_name
+order by s.student_id, sb.subject_name;
