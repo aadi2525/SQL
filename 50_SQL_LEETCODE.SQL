@@ -59,3 +59,43 @@ left join Examinations e on
 e.student_id = s.student_id  and  e.subject_name=sb.subject_name
 group by s.student_id,s.student_name,sb.subject_name
 order by s.student_id, sb.subject_name;
+
+
+
+# Write your MySQL query statement below
+select name
+from Employee
+where id in
+(
+select managerId 
+from Employee
+group by managerId
+having count(id)>=5)
+
+
+# Write your MySQL query statement below
+select s.user_id, case when c.time_stamp is null 
+then 0.00 else
+round(sum(action= "confirmed")/count(*),2) 
+end
+as confirmation_rate 
+
+from Signups s left join Confirmations c
+on s.user_id = c.user_id
+group by s.user_id
+
+
+
+# Write your MySQL query statement below
+select * from  Cinema
+where id%2 = 1 and description!="boring"
+order by rating desc
+
+
+
+# Write your MySQL query statement below
+select p.product_id , ifnull(round(sum(price*units)/sum(units),2),0)  average_price
+from Prices p left  join UnitsSold us 
+on p.product_id = us.product_id
+and us.purchase_date between p.start_date and p.end_date
+group by p.product_id;
