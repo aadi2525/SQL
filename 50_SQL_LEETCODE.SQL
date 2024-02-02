@@ -99,3 +99,31 @@ from Prices p left  join UnitsSold us
 on p.product_id = us.product_id
 and us.purchase_date between p.start_date and p.end_date
 group by p.product_id;
+
+# Write your MySQL query statement below
+select a1.machine_id, round(avg(a2.timestamp - a1.timestamp),3)as processing_time
+from activity a1 left join activity a2
+on a1.machine_id=a2.machine_id and a1.process_id = a2.process_id and a1.timestamp<a2.timestamp
+group by a1.machine_id
+
+# Write your MySQL query statement below
+select contest_id,round(count(distinct user_id) / (select count(user_id) from users)*100,2) as percentage
+from register
+group by contest_id
+order by percentage desc ,contest_id
+
+# Write your MySQL query statement below
+select query_name,
+round (sum(rating/position)/ count(query_name) ,2) as quality,
+round ((sum(case when rating < 3 then 1 else 0 end) / count(query_name)) * 100 ,2) as poor_query_percentage
+from queries
+WHERE query_name is not null
+group by query_name
+
+# Write your MySQL query statement below
+select  substr(trans_date,1,7)  as month, country , count(id) as trans_count,
+sum(case when state = "approved" then 1 else 0 end) as approved_count,sum(amount)
+as trans_total_amount,sum(case when state= 'approved' then amount else 0 END) as approved_total_amount
+
+from  Transactions
+group by month ,country
