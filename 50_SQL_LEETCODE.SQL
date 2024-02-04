@@ -137,3 +137,47 @@ where (customer_id , order_date) in
 (select customer_id , min(order_date) 
 from Delivery
 group by customer_id)
+
+
+-- 1729. Find Followers Count
+# Write your MySQL query statement below
+select distinct user_id,count(follower_id) as followers_count
+from Followers
+group by user_id ,asc
+order by  user_id asc
+
+-- 619. Biggest Single Number
+# Write your MySQL query statement below
+select max(num) as num
+from(
+ select num
+from MyNumbers
+group by  num
+having count(num)=1
+)as unique_num;
+
+-- 1045. Customers Who Bought All Products
+# Write your MySQL query statement below
+
+SELECT  customer_id FROM Customer GROUP BY customer_id
+HAVING COUNT(distinct product_key) = (SELECT COUNT(product_key) FROM Product)
+
+
+
+-- 1731. The Number of Employees Which Report to Each Employee
+# Write your MySQL query statement below
+select e1.employee_id,e1.name,count(e2.reports_to) as reports_count,round(avg(e2.age)) as average_age
+from employees e1 inner join employees e2 on 
+e1.employee_id = e2.reports_to
+group by e1.employee_id
+order by e1.employee_id
+
+-- 1070. Product Sales Analysis III
+# Write your MySQL query statement below
+select product_id, year AS first_year, quantity, price
+from sales
+where (product_id, year) in (
+    select product_id,min(year)
+    from sales
+    group by product_id
+)
