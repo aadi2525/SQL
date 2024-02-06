@@ -198,3 +198,40 @@ conditions like 'DIAB1%'
 # Write your MySQL query statement below
 delete p2 from person p1 , person p2
 where p1.email = p2.email and p2.id>p1.id
+
+-- # Write your MySQL query statement below
+select max(salary) as SecondHighestSalary  
+from employee
+where salary < (select max(salary) from employee)
+
+-- SELECT(SELECT DISTINCT
+--     Salary 
+-- FROM
+--     Employee
+-- ORDER BY Salary DESC
+-- LIMIT 1 OFFSET 1)AS SecondHighestSalary;
+
+
+# Write your MySQL query statement below
+SELECT sell_date , count(distinct product) as num_sold,
+ group_concat(distinct product order by product) as 
+products
+from Activities
+group by sell_date
+order by sell_date 
+
+
+
+SELECT p.product_name, SUM(o.unit) AS unit
+FROM Products p
+JOIN Orders o ON p.product_id = o.product_id
+WHERE o.order_date BETWEEN '2020-02-01' AND '2020-02-29'
+GROUP BY p.product_id
+HAVING unit >= 100;
+
+
+
+# Write your MySQL query statement below
+SELECT *
+FROM Users
+WHERE mail REGEXP '^[A-Za-z][A-Za-z0-9_\.\-]*@leetcode(\\?com)?\\.com$';
