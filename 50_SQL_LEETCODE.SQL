@@ -181,3 +181,20 @@ where (product_id, year) in (
     from sales
     group by product_id
 )
+
+# Write your MySQL query statement below
+select user_id,
+        concat(upper(substring(name,1,1)), lower(substring(name,2))) as name
+from Users
+order by user_id;
+
+
+# Write your MySQL query statement below
+select * from Patients
+where conditions like '% DIAB1%' or
+conditions like 'DIAB1%'
+
+
+# Write your MySQL query statement below
+delete p2 from person p1 , person p2
+where p1.email = p2.email and p2.id>p1.id
