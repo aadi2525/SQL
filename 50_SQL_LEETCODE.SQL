@@ -182,6 +182,60 @@ where (product_id, year) in (
     group by product_id
 )
 
+
+(select u.name as results from MovieRating t
+join Users u on t.user_id = u.user_id
+group by t.user_id 
+ORDER BY count(t.user_id) desc, u.name asc
+limit 1)
+
+union all
+
+(select m.title as results from MovieRating t
+join Movies m on t.movie_id = m.movie_id
+where t.created_at BETWEEN "2020-02-01" AND "2020-02-29"
+group by t.movie_id
+ORDER BY avg(t.rating) desc, m.title asc limit 1)
+
+
+
+-- 1321
+# Write your MySQL query statement below
+SELECT
+    visited_on,
+    (
+        SELECT SUM(amount)
+        FROM customer
+        WHERE visited_on BETWEEN DATE_SUB(c.visited_on, INTERVAL 6 DAY) AND c.visited_on
+    ) AS amount,
+    ROUND(
+        (
+            SELECT SUM(amount) / 7
+            FROM customer
+            WHERE visited_on BETWEEN DATE_SUB(c.visited_on, INTERVAL 6 DAY) AND c.visited_on
+        ),
+        2
+    ) AS average_amount
+FROM customer c
+WHERE visited_on >= (
+        SELECT DATE_ADD(MIN(visited_on), INTERVAL 6 DAY)
+        FROM customer
+    )
+GROUP BY visited_on;
+
+-- 602
+SELECT id, COUNT(*) AS num 
+FROM (
+    SELECT requester_id AS id FROM RequestAccepted
+    UNION ALL
+    SELECT accepter_id FROM RequestAccepted
+) AS friends_count
+GROUP BY id
+ORDER BY num DESC 
+LIMIT 1;
+
+
+
 # Write your MySQL query statement below
 select user_id,
         concat(upper(substring(name,1,1)), lower(substring(name,2))) as name
@@ -235,3 +289,4 @@ HAVING unit >= 100;
 SELECT *
 FROM Users
 WHERE mail REGEXP '^[A-Za-z][A-Za-z0-9_\.\-]*@leetcode(\\?com)?\\.com$';
+-- <----- COMPLETED------->
